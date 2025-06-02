@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>南昌旅游景点地图</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- 登录模态框 -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>登录</h2>
+            <input type="text" id="username" placeholder="用户名">
+            <input type="password" id="password" placeholder="密码">
+            <button id="loginButton">登录</button>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="选择旅游景点" readonly>
+        <button id="locateButton">定位到我</button>
+        <button id="navigateButton">导航</button>
+        <button id="measureButton">长度量算</button>
+        <button id="clearMeasureButton">清除量算标记</button>
+        <button id="rectangleAreaButton">矩形面积计算</button>
+        <button id="circleAreaButton">圆面积计算</button> 
+        <ul class="dropdown-list" id="dropdownList"></ul>
+    </div>
+    <!-- 地图类型切换控件 -->
+    <div class="map-type-switcher">
+        <input type="radio" id="normalMap" name="mapType" value="normal" checked>
+        <label for="normalMap">普通地图</label>
+        <input type="radio" id="satelliteMap" name="mapType" value="satellite">
+        <label for="satelliteMap">卫星图</label>
+        <input type="radio" id="trafficMap" name="mapType" value="traffic">
+        <label for="trafficMap">路况图层</label>
+    </div>
+    <!-- 景区类型标识（位于切换控件下方，水平对齐） -->
+    <div class="attraction-type-label">
+        <span style="color: red;">红色🔴 - 历史景区</span>
+        <span style="color: blue;">蓝色🔵 - 现代景区</span>
+        <span style="color: green;">绿色🟢 - 美食小吃</span>
+    </div>
+    <div id="mapContainer"></div>
+
+    <script src="https://webapi.amap.com/maps?v=2.0&key=1ae798c9bd026b920a6fda39316d2a84"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
