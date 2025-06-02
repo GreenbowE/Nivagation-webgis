@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>南昌旅游景点地图</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- 登录模态框 -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>登录</h2>
+            <input type="text" id="username" placeholder="用户名">
+            <input type="password" id="password" placeholder="密码">
+            <button id="loginButton">登录</button>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="选择旅游景点" readonly>
+        <button id="locateButton">定位到我</button>
+        <button id="customLocationButton">自选位置</button>
+        <button id="clearCustomLocationButton">清除自选位置</button>
+        <button id="navigateButton">导航</button>
+        <div class="navigation-mode">
+            <label class="nav-driving"><input type="radio" name="navMode" value="driving" checked> 驾车</label>
+            <label class="nav-riding"><input type="radio" name="navMode" value="riding"> 骑行</label>
+            <label class="nav-walking"><input type="radio" name="navMode" value="walking"> 步行</label>
+        </div>
+        <button id="measureButton">长度量算</button>
+        <button id="clearMeasureButton">清除量算标记</button>
+        <button id="rectangleAreaButton">矩形面积计算</button>
+        <button id="circleAreaButton">圆面积计算</button> 
+        <ul class="dropdown-list" id="dropdownList"></ul>
+    </div>
+    <!-- 地图类型切换控件 -->
+    <div class="map-type-switcher">
+        <input type="radio" id="normalMap" name="mapType" value="normal" checked>
+        <label for="normalMap">普通地图</label>
+        <input type="radio" id="satelliteMap" name="mapType" value="satellite">
+        <label for="satelliteMap">卫星图</label>
+        <input type="radio" id="trafficMap" name="mapType" value="traffic">
+        <label for="trafficMap">路况图层</label>
+        <div class="view-mode-toggle">
+            <input type="radio" id="2dView" name="viewMode" value="2D">
+            <label for="2dView">2D视图</label>
+            <input type="radio" id="3dView" name="viewMode" value="3D" checked>
+            <label for="3dView">3D视图</label>
+        </div>
+    </div>
+    <!-- 景区类型标识（位于切换控件下方，水平对齐） -->
+    <div class="attraction-type-label">
+        <span style="color: red;">红色🔴 - 历史景区</span>
+        <span style="color: blue;">蓝色🔵 - 现代景区</span>
+        <span style="color: green;">绿色🟢 - 美食小吃</span>
+    </div>
+    <div id="mapContainer"></div>
+
+    <!-- 添加安全密钥配置 -->
+    <script>
+        // 从服务器获取API密钥
+        fetch('/api/map-config')
+            .then(response => response.json())
+            .then(config => {
+                // 设置安全密钥
+                window._AMapSecurityConfig = {
+                    securityJsCode: config.securityKey
+                };
+                
+                // 动态加载高德地图API
+                const script = document.createElement('script');
+                script.src = `https://webapi.amap.com/maps?v=2.0&key=${config.apiKey}&plugin=AMap.Driving,AMap.Riding,AMap.Walking,AMap.Geolocation,AMap.Geocoder,AMap.GeometryUtil,AMap.ToolBar,AMap.Scale,AMap.ControlBar,AMap.Buildings`;
+                script.onload = function() {
+                    // 加载完成后加载主脚本
+                    const mainScript = document.createElement('script');
+                    mainScript.src = 'script.js';
+                    document.body.appendChild(mainScript);
+                };
+                document.body.appendChild(script);
+            })
+            .catch(error => {
+                console.error('获取API配置失败:', error);
+                alert('加载地图失败，请刷新页面重试');
+            });
+    </script>
+</body>
+
+</html> 
